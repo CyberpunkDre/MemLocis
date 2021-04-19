@@ -13,7 +13,5 @@ src/*.zip
 src/G*/
 src/L*/
 src/M*/
-src/ML/
-src/Mechatronics/
-src/Num_comp/
-src/uMicroCode/
+src/N*/
+src/u*/
