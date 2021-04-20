@@ -41,7 +41,7 @@ def main():
         # Target Gen
         # targets = tarGen(field, targetNumber, targetSpeed, timeDiv)
     
-        # [eventLog, t2rRx] = simulator(nodes, targets, timeSim, timeDiv, tMax, maxRate)
+        # [eventLog, t2Rx] = simulator(nodes, targets, timeSim, timeDiv, tMax, maxRate)
 
         # if t2Rx == 0
         #     fails = fails + 1;

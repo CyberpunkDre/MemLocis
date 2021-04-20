@@ -28,84 +28,169 @@
 #############################################################
 
 ## Libraries
+import math
+import random
 import numpy as np
 
-# function outNodes = nodeGen(field, number, range, method)
-#
-# outNodes = struct('x', {}, 'y', {})
-#
+class NodeObj:
 
-# pos = zeros(number, 2)
+    # id -> nodeId and range -> commRange to avoid built-in Python functions
+    def __init__(self, x = 0, y = 0, nodeId = 0, commRange = 40, incoming = [], interests = []):
+        self.x = x
+        self.y = y
+        self.nodeId = nodeId
+        self.commRange = commRange
+        self.incoming = incoming
+        self.interests = interests
 
-# if method == 2:
-#       xLim = field(1)
-#       yLim = field(2)
+    def setx(self, x = 0):
+        self.x = x
+
+    def sety(self, y = 0):
+        self.y = y
+
+    def getRange(self):
+        return self.commRange
+
+    def __repr__(self):
+        return "Node %d at (%f, %f)" % (self.nodeId, self.x, self.y)
+
+    def __str__(self):
+        return "Node ID = %d\n(x,y) = (%f, %f)\nRange = %f\n" % (self.nodeId, self.x, self.y, self.commRange)
+
 #
-#   for i in range(1, number+1):
-#       outNodes(i).x = rand()*xLim
-#       outNodes(i).y = rand()*yLim
-#       pos(i,:) = [outNodes(i).x, outNodes(i).y]
-#       
-#       if i ~= 1:
-#           inRange = 0
-#           while inRange == 0:
-#               for j in range(1, (i - 1) ):
-#                   dist = norm( pos(i,:) - pos(j,:) )
-#                   if dist <= range:
-#                       inRange = 1
-#                       j = i
-#                   else:
-#                       outNodes(i).x = rand()*xLim;
-#                       outNodes(i).y = rand()*yLim;
-#                       pos(i,:) = [outNodes(i).x, outNodes(i).y]
-#       
-#       outNodes(i).id = i
-#       outNodes(i).range = range
-#       outNodes(i).incoming = {}
-#       outNodes(i).interests = {}
+# Generates an array of NodeObj of size *numNodes* with given commRange
 #
-# if method == 1:
-#       xLim = floor( field(1) / 10) - 1
-#       yLim = floor( field(2) / 10) - 1
-#       k = 1
-#       for i in range (1, xLim + 1):
-#           for j in range (1, yLim + 1):
-#               outNodes(k).x = i*(10);
-#               outNodes(k).y = j*(10);
-#               outNodes(k).id = k;
-#               outNodes(k).range = 10;
-#               outNodes(k).incoming = {};
-#               outNodes(k).interests = {};
-#               k = k + 1
+def genNodeList(numNodes = 1, commRange = 1):
+
+    returnList = []
+
+    for i in range(1, numNodes + 1):
+        newNode = NodeObj(0, 0, i, commRange, [], [])
+        returnList.append(newNode)
+
+    return returnList
+
 #
-# if method == 0:
-#       outNodes(1).x = 25
-#       outNodes(1).y = 25
-#       outNodes(1).id = 1
-#       outNodes(1).range = 40
-#       outNodes(1).incoming = {}
-#       outNodes(1).interests = {}
-#       outNodes(2).x = 50
-#       outNodes(2).y = 50
-#       outNodes(2).id = 2
-#       outNodes(2).range = 40
-#       outNodes(2).incoming = {}
-#       outNodes(2).interests = {}
-#       outNodes(3).x = 75
-#       outNodes(3).y = 75
-#       outNodes(3).id = 3
-#       outNodes(3).range = 40
-#       outNodes(3).incoming = {}
-#       outNodes(3).interests = {}
-#       outNodes(4).x = 50
-#       outNodes(4).y = 35
-#       outNodes(4).id = 4
-#       outNodes(4).range = 40
-#       outNodes(4).incoming = {}
-#       outNodes(4).interests = {}
-#       outNodes(5).x = 35
-#       outNodes(5).y = 50
-#       outNodes(5).id = 5
-#       outNodes(5).range = 40
-#       outNodes(5).incoming = {}
-#       outNodes(5).interests = {}
+# Generates an array of NodeObj with given commRange
+# Number scales based on x/yLimits and scalar
+#
+def genGridNodeList(xLimit = 1.0, yLimit = 1.0, commRange = 1, scalar = 10):
+
+    returnList = []
+
+    xLim = math.floor( xLimit / scalar )
+    yLim = math.floor( yLimit / scalar )
+    k = 1
+
+    for i in range(1, xLim):
+        for j in range(1, yLim):
+            newNode = NodeObj( i * scalar, j * scalar, k, commRange, [], [])
+            returnList.append(newNode)
+            k = k + 1
+
+    return returnList
+
+#
+# Generates an array of NodeObj to match a preset given in original code
+#
+def genPresetNodeList():
+
+    returnList = []
+
+    returnList.append( NodeObj(25, 25, 1, 40, [], []) )
+    returnList.append( NodeObj(50, 50, 2, 40, [], []) )
+    returnList.append( NodeObj(75, 75, 3, 40, [], []) )
+    returnList.append( NodeObj(50, 30, 4, 40, [], []) )
+    returnList.append( NodeObj(30, 50, 5, 40, [], []) )
+
+    return returnList
+    
+#
+# Randomly shuffles (x,y) positions of given array of NodeObj
+#
+def shufflePosRandom(xLimit = 1.0, yLimit = 1.0, nodeList = []):
+
+    for node in nodeList:
+        randX = random.random() * xLimit
+        node.setx(randX)
+        randY = random.random() * yLimit
+        node.sety(randY)
+
+#
+# Randomly shuffles (x,y) positions of given array of NodeObj following old code spacing rules
+#
+def shufflePosRandomSpacer(xLimit = 1.0, yLimit = 1.0, nodeList = []):
+
+    posTracker = []
+    i = 0
+    for node in nodeList:
+        randX = random.random() * xLimit
+        randY = random.random() * yLimit
+        
+        posTracker.append([randX, randY])
+
+        inRange = 0
+        while (inRange == 0) and (i != 0):
+            for j in range(0, i):
+                dist = np.linalg.norm(np.array(posTracker[i]) - np.array(posTracker[j]))
+                if dist <= node.getRange():
+                    inRange = 1
+                    j = i
+                else:
+                    randX = random.random() * xLimit
+                    randY = random.random() * yLimit
+                    posTracker[i] = [randX, randY]
+
+        node.setx(randX)
+        node.sety(randY)
+        i = i + 1
+#
+# Generates a list of nodes with given parameters
+#
+def genNodes(xLimit = 1.0, yLimit = 1.0, numNodes = 1, commRange = 40, method = 'RANDOM'):
+
+    returnNodeList = []
+
+    if(method == 'RANDOM'):
+        returnNodeList = genNodeList(numNodes, commRange)
+        shufflePosRandom(xLimit, yLimit, returnNodeList)
+    elif(method == 'GRID'):
+        returnNodeList = genGridNodeList(xLimit, yLimit, commRange)
+    elif(method == 'PRESET'):
+        returnNodeList = genPresetNodeList()
+
+    return returnNodeList
+
+if __name__ == '__main__':
+    
+    print("Running nodeGen.py separately to test structure generation.")
+    print("")
+    print("Test #1: Preset Node Gen")
+    print("xLimit = 100, yLimit = 100, numNodes = 5, commRange = 40, method = PRESET")
+    NodeList1 = genNodes(100, 100, 5, 40, 'PRESET')
+    print("Len of return node list = %d" % len(NodeList1))
+    print("------------------------")
+    for node in NodeList1:
+        print(node)
+        print("------------------------")
+    print("")
+    print("")
+    print("Test #2: Grid Node Gen")
+    print("xLimit = 100, yLimit = 100, numNodes = x, commRange = 10, method = GRID")
+    NodeList2 = genNodes(100, 100, 5, 10, 'GRID')
+    print("Len of return node list = %d" % len(NodeList2))
+    print("------------------------")
+    for node in NodeList2:
+        print(node)
+        print("------------------------")
+    print("")
+    print("")
+    print("Test #3: Random Node Gen")
+    print("xLimit = 100, yLimit = 100, numNodes = 50, commRange = 40, method = RANDOM")
+    NodeList3 = genNodes(100, 100, 50, 40, 'RANDOM')
+    print("Len of return node list = %d" % len(NodeList3))
+    print("------------------------")
+    for node in NodeList3:
+        print(node)
+        print("------------------------")
