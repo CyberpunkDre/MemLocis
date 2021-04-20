@@ -53,10 +53,10 @@ class NodeObj:
         return self.commRange
 
     def __repr__(self):
-        return "Node %d at (%f, %f)" % (self.nodeId, self.x, self.y)
+        return "Node %d at (%3.2f, %3.2f)" % (self.nodeId, self.x, self.y)
 
     def __str__(self):
-        return "Node ID = %d\n(x,y) = (%f, %f)\nRange = %f\n" % (self.nodeId, self.x, self.y, self.commRange)
+        return "Node ID = %d\n(x,y) = (%3.2f, %3.2f)\nRange = %3.2f" % (self.nodeId, self.x, self.y, self.commRange)
 
 #
 # Generates an array of NodeObj of size *numNodes* with given commRange
