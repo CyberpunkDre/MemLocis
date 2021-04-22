@@ -21,6 +21,91 @@
 ##                                                         ##
 #############################################################
 
+## Libraries
+import math
+
+class EventHistory:
+
+    def __init__(self, startTime = 0, endTime = 0, timeDiv = 1):
+        self.startTime = startTime
+        self.endTime = endTime
+        self.timeDiv = timeDiv
+        self.time = []
+        self.nodePositions = []
+        self.targetPositions = []
+        self.messages = []
+
+    def addTimeEntry(self, time):
+        self.time.append(time)
+
+    def addNodePosition(self, iteration, nodeXY):
+        if(iteration >= len(self.nodePositions)):
+            self.nodePositions.append([nodeXY])
+        else:
+            self.nodePositions[iteration - 1].append(nodeXY)
+
+class Interest:
+
+    def __init__(self, interestId = 0, update = 0, expires = 0, sendBack = 0, sendTo = 0):
+        self.interestId = interestId
+        self.update = update
+        self.expires = expires
+        self.sendBack = sendBack
+        self.sendTo = sendTo
+
+class Payload:
+
+    def __init__(self, command = None, position = None):
+        self.command = command
+        self.position = position
+
+class Message:
+
+    def __init__(self, messageId = 0, update = 0, expires = 0, payload = None, nodeFrom = 0):
+        self.messageId = messageId
+        self.update = update
+        self.expires = expires
+        self.payload = payload
+        self.nodeFrom = nodeFrom
+        self.timer = timer
+
+class MessageQueue:
+
+    def __init__(self):
+        self.queue = []
+        # source
+        # dest
+        # nodeId
+        # targetId
+
+    def addMsg(self, msg):
+        self.queue.append(msg)
+
+
+
+class Simulator:
+
+    def __init__(self, nodes, targets, time, timeDiv, tMax, maxRate):
+        self.msgQueue = MessageQueue()
+        self.iteration = math.floor( time / timeDiv)
+
+        self.eventHistory = EventHistory(0, time, timeDiv)
+
+        self.t2Rx = 0
+
+    def recordInitialPositions(self):
+
+
+    def run(self):
+        self.t2Rx = 0
+
+
+
+
+
+
+
+
 # function [outData, t2Rx] = simulator(nodes, targets, time, time_div, tMax, maxRate)
 
 # iterations = floor( time / time_div ) # Current step time every time_div
