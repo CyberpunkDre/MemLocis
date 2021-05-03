@@ -107,7 +107,7 @@ class MessageQueue:
         if(index < self.size):
             return self.msgQueue[index]
 
-    def size(self):
+    def getSize(self):
         return self.size
 
     def tickTimerIndex(self, index):
@@ -197,7 +197,7 @@ class EventHistory:
         return currentIndex
 
     # Append - Add message at current *eventCount* index with given message
-    def appendMsg(self, message)
+    def appendMsg(self, message):
         self.messages[self.eventCount].append(message)
 
     # Overwrite
@@ -216,7 +216,7 @@ class Interest:
     def getInterestId(self):
         return self.interestId
 
-    def getInterestExpires(self)
+    def getInterestExpires(self):
         return self.getInterestExpires
 
     def updateInterestIdExpires(self, timestamp, expires):
@@ -350,9 +350,9 @@ class Simulator:
     ##
     def iterateMessageQueue(self):
 
-        msgQ = self.msgQueue.size()
+        msgQ = self.msgQueue.getSize()
         i = 0
-        while( i < msqQ ):
+        while( i < msgQ ):
             msg = self.msgQueue.getMsgIndex(i)
             timer = self.msgQueue.tickTimerIndex(i)
             if( timer == 0):
@@ -633,7 +633,7 @@ class Simulator:
 #               tarIndex = nodes(i).interests{j}.id(2);
 #               targetPos = [targets(tarIndex).x, targets(tarIndex).y];
 #               dist = norm(targetPos - curNodePos);
-            intSize = len(self.nodes[i].getNumInterests())
+            intSize = self.nodes[i].getNumInterests()
             for j in range(1, intSize):
                 if( self.nodes[i].getInterestsUpdateCount(j) == 0 ):
                     self.nodes[i].shiftInterestsUpdate(j)
@@ -857,6 +857,8 @@ class Simulator:
             )
 
 #   # fprintf('t = %4d\n',t);
-            print("t = %4d" % t)
+            #print("t = %4d" % t)
         
         print("Run end")
+        
+        return (self.eventHistory, self.t2Rx)

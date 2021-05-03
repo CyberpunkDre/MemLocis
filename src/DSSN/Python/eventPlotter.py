@@ -20,8 +20,15 @@
 ##                                                         ##
 #############################################################
 
+## Local Libraries
+#import simulator
 
 # function [mSent, pUsed] = eventPlotter(eventLog, doPlot)
+
+#class EventPlotter():
+#
+#    def __init__(self, eventHistory):
+#        self.eventHistory = eventHistory
 
 # if doPlot == 1
 #     figure(1)
