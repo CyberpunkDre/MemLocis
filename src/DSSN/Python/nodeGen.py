@@ -32,6 +32,9 @@ import math
 import random
 import numpy as np
 
+## Local Libraries
+import simulator
+
 class NodeObj:
 
     # id -> nodeId and range -> commRange to avoid built-in Python functions
@@ -49,14 +52,77 @@ class NodeObj:
     def sety(self, y = 0):
         self.y = y
 
+    def getPos(self):
+        return (self.x, self.y)
+
     def getRange(self):
         return self.commRange
+
+    def addIncomingMsg(self, msg):
+        self.incoming.append(msg)    
+
+    def getIncomCount(self):
+        return len(self.incoming)
+
+    def getIncomMsg(self, index):
+        return self.incoming[index]
+
+    def getInterestsCount(self):
+        return len(self.interests)
+
+    def getInterests(self, index):
+        return self.interests[index]
+
+    def setInterestsId1(self, index, newId):
+        self.interests[index].setInterestTimestamp(newId)
+
+    def setInterestsUpdate(self, index, update):
+        self.interests[index],setUpdate(update)
+
+    def addInterest(self, interestId, update, expires, sendBack, sendTo):
+        self.interests.append(simulator.Interest(interestId, update, expires, sendBack, sendTo))
+
+    def clearIncoming(self):
+        self.incoming.clear()
+
+    def getNumInterests(self):
+        return len(self.interests)
+
+    def getInterestsIdTarget(self, index):
+        return self.interests[index].getInterestIdTarget()
+
+    def shiftInterestsUpdate(self, index):
+        self.interests[index].shiftUpdate()
+
+    def getInterestsUpdateCount(self, index):
+        return self.interests[index].getInterestUpdateCount()
+
+    def getInterestsUpdate(self, index):
+        return self.interests[index].getUpdate()
+
+    def getInterestsExpires(self, index):
+        return self.interests[index].getExpires()
+
+    def tickInterestsUpdateTimer(self, index):
+        return self.interests[index].tickUpdateTimer()
 
     def __repr__(self):
         return "Node %d at (%3.2f, %3.2f)" % (self.nodeId, self.x, self.y)
 
     def __str__(self):
         return "Node ID = %d\n(x,y) = (%3.2f, %3.2f)\nRange = %3.2f" % (self.nodeId, self.x, self.y, self.commRange)
+
+#
+# Walks a List of NodeObj and returns a List of (NodeObj.x, NodeObj.y)
+#
+def genNodePosList(nodeList):
+    
+    returnList = []
+
+    for node in nodeList:
+        returnList.append(node.getPos())
+
+    return returnList
 
 #
 # Generates an array of NodeObj of size *numNodes* with given commRange

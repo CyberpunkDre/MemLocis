@@ -59,6 +59,37 @@ class TargetObj:
     def setInterval(self, interval = 0):
         self.interval = interval
 
+    def getInterval(self):
+        return self.interval
+
+    def decInterval(self, decrement):
+        self.interval = self.interval - decrement
+
+    def addRxMsg(self, msg):
+        self.rx.append(msg)
+
+    def addTxMsg(self, msg):
+        self.tx.apppend(msg)
+
+    def getPos(self):
+        return (self.x, self.y)
+
+    def getTargetId(self):
+        return self.targetId
+
+    def getMaxTargets(self):
+        return self.maxTarget
+
+    def getRxSize(self):
+        return len(self.rx)
+
+    def popRx(self, index):
+        return self.rx.pop(index)
+
+    def updateTargetPosition(self):
+        self.x = self.x + self.vel[0]
+        self.y = self.y + self.vel[1]
+
     def __repr__(self):
         return "Target %d at (%3.2f, %3.2f)" % (self.targetId, self.x, self.y)
 
