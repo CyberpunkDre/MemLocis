@@ -31,7 +31,7 @@ import random
 
 class TargetObj:
 
-    def __init__(self, x = 0, y = 0, targetId = 0, maxTarget = 0, interval = 0, vel = [0, 0], tx = {}, rx = {}):
+    def __init__(self, x = 0, y = 0, targetId = 0, maxTarget = 0, interval = 0, vel = [0, 0], tx = [], rx = []):
         self.x = x
         self.y = y
         self.targetId = targetId
@@ -69,7 +69,7 @@ class TargetObj:
         self.rx.append(msg)
 
     def addTxMsg(self, msg):
-        self.tx.apppend(msg)
+        self.tx.append(msg)
 
     def getPos(self):
         return (self.x, self.y)

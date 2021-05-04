@@ -77,13 +77,16 @@ class NodeObj:
         self.interests[index].setInterestTimestamp(newId)
 
     def setInterestsUpdate(self, index, update):
-        self.interests[index],setUpdate(update)
+        self.interests[index].setUpdate(update)
 
     def addInterest(self, interestId, update, expires, sendBack, sendTo):
         self.interests.append(simulator.Interest(interestId, update, expires, sendBack, sendTo))
 
     def clearIncoming(self):
         self.incoming.clear()
+
+    def clearInterests(self, index):
+        self.interests.remove(self.interests[index])
 
     def getNumInterests(self):
         return len(self.interests)

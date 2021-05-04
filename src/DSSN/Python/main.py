@@ -6,6 +6,7 @@
 #############################################################
 
 # Libraries
+import pdb
 import numpy as np
 
 # Local Libraries
@@ -18,10 +19,10 @@ xLen = 100.0        # m
 yLen = 100.0        # m
 nodeRange  = 15     # m
 nodeNumber = 10     # units
-targetNumber = 2    # units
+targetNumber = 5    # units
 targetSpeed  = 15   # m/s
 timeDiv = 10**-3    # s (per iteration)
-timeSim = 2.5       # s
+timeSim = 1         # s
 tMax    = 3         # max milliseconds possible delay
 maxRate = 30        # update frequency in milliseconds
 method  = 1         # Node generation method
@@ -39,7 +40,7 @@ def main():
     mMsg = 0
     mPow = 0
     
-    for i in range(1,101):
+    for i in range(1,2):
         #
         # Node Gen
         # nodes = nodeGen(field, nodeNumber, nodeRange, method)
@@ -53,6 +54,8 @@ def main():
     
         # [eventLog, t2Rx] = simulator(nodes, targets, timeSim, timeDiv, tMax, maxRate)
         simulator = simGen.Simulator(nodes, targets, timeSim, timeDiv, tMax, maxRate)
+
+        pdb.set_trace()
         (eventLog, t2Rx) = simulator.run()
 
         # if t2Rx == 0
