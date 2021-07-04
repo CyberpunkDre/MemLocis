@@ -62,6 +62,16 @@ I will analyze the requirements and energy costs of the implementations and idea
 
 Let's find out how well these expectations held out. x.x
 
+### 7_3_21
+
+Coming back to this, I see that I may have completed some amount of the Python to a running status, though remains to be seen how well and to what end.
+
+I've had thoughts about expanding the basic knowledge in this repo to cover silicon/transistor basics so I can have some sort of personalized math tool to evaluate that kind of information. I think I would need to rearrange this documentation structure to support that but minor stuff.
+
+I really need to get a visualization up for this, I think it was probably running before. I accidentally ran it in Python2 and cleaned up some Int conversion stuff that I imagine Python3 is handling implicitly until I got to a library problem that became fixed by actually running in Python3.
+That said, I need the visual in order to check that messages are set or something.
+
+
 #### Project Initial Presentation
 
 5 slides that collapse the above text into a Powerpoint presentation.

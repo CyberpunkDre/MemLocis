@@ -16,3 +16,4 @@ src/M*/
 src/N*/
 src/u*/
 **/__pycache__/**
+**/*.pyc

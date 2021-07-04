@@ -83,7 +83,7 @@ class NodeObj:
         self.interests.append(simulator.Interest(interestId, update, expires, sendBack, sendTo))
 
     def clearIncoming(self):
-        self.incoming.clear()
+        self.incoming = []
 
     def clearInterests(self, index):
         self.interests.remove(self.interests[index])
@@ -148,8 +148,8 @@ def genGridNodeList(xLimit = 1.0, yLimit = 1.0, commRange = 1, scalar = 10):
 
     returnList = []
 
-    xLim = math.floor( xLimit / scalar )
-    yLim = math.floor( yLimit / scalar )
+    xLim = int(math.floor( xLimit / scalar ))
+    yLim = int(math.floor( yLimit / scalar ))
     k = 1
 
     for i in range(1, xLim):
